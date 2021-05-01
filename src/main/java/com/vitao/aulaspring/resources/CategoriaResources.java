@@ -1,10 +1,12 @@
 package com.vitao.aulaspring.resources;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import com.vitao.aulaspring.domain.Categoria;
+import com.vitao.aulaspring.services.CategoriaService;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,22 +16,26 @@ import org.springframework.web.bind.annotation.RestController;
 
 public class CategoriaResources {
 
-   // Para essa função ser uma função REST =, preciso associar um verbo HTTP
-   @RequestMapping(method = RequestMethod.GET) //Estou dizendo que é um metodo GET
-    public List<Categoria> listar()
-    {
-        
-       Categoria cat1 = new Categoria(1,"Informática");
-       Categoria cat2 =new Categoria(1,"Escritório");
-       
-       //List é uma interface então nao pode ser instanciada, para isso instaciamos um objeto de Arraylist
-       List<Categoria> lista = new ArrayList<>();
-       lista.add(cat1);
-       lista.add(cat2);
+   @Autowired //auto instaciar service
+    private CategoriaService service; //estamos acessado o serviço criado em Categoria Service
 
-       //List ainda retorna os dados em formato JSON na web, MASSA!!!
-        return lista;
-    }
+   // Para essa função ser uma função REST =, preciso associar um verbo HTTP "GET"
+   //adicionamos no contrutor de requestmapping o parametro value = "id" para passar como argumento no end point
+   @RequestMapping(value="/{id}" , method = RequestMethod.GET) //Estou dizendo que é um metodo GET
+    public ResponseEntity<?> find(@PathVariable Integer id){ // trocamos o nome da função e colocamos a notação @PathVariable
+    //trocamos o tipo de retorno                         // assim o spring sabe que o caminho que colocamos de id no end point virá como parametro para a função find
+    //response entity é preparado para respostas REST
+    //o ? siginifica qualquer tipo de dado como resposta   
+    Categoria obj = service.buscar(id);
+    //aqui ja instaciamos o obj e chamamos a função buscar la de CategoriaService e com id de parametro
+    
+    return ResponseEntity.ok().body(obj);
+    //aqui a resposta é recebida com a classe ResponseEntity igual em find
+    //essa classe lida com as requisiçoes complexas de http
+    //chamamos o metodo ok se der tudo certo e apresentamos o objeto buscado
+
+    
+    }       
     
     
 }
