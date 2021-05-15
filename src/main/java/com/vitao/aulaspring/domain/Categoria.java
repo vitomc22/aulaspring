@@ -1,11 +1,14 @@
 package com.vitao.aulaspring.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class Categoria implements Serializable {  //Serializable serve para tranformar os objetos da subclasse Categoria em sequencia de Bytes
@@ -16,6 +19,24 @@ public class Categoria implements Serializable {  //Serializable serve para tran
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nome;
+
+    @ManyToMany(mappedBy = "categorias") //como ja mapeamos o relacionamento de tabelas dentro da classe Categoria
+                                         //utilizamos o mappedBy para informar a regra que estamos utilizando 
+                                         //assim reapriveitando código sem rescrever a relação toda novamente
+    //private List<Categoria> categorias = new ArrayList<>(); //Associação de produtos com categoria                                   
+    
+    
+    private List<Produto> produtos = new ArrayList<>(); //criamos uma associação de Categoria com produtos
+                                                        //Uma caegoria pode ter vários produtos
+
+    
+    public List<Produto> getProdutos() {
+        return produtos;
+    }
+
+    public void setProdutos(List<Produto> produtos) {
+        this.produtos = produtos;
+    }
 
     public Categoria (){
 
