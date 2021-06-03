@@ -26,7 +26,7 @@ public class CategoriaResources {
     //trocamos o tipo de retorno                         // assim o spring sabe que o caminho que colocamos de id no end point virá como parametro para a função find
     //response entity é preparado para respostas REST
     //o ? siginifica qualquer tipo de dado como resposta   
-    Categoria obj = service.buscar(id);
+    Categoria obj = service.find(id);
     //aqui ja instaciamos o obj e chamamos a função buscar la de CategoriaService e com id de parametro
     
     return ResponseEntity.ok().body(obj);

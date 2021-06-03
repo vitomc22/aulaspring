@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 
 
 @Entity //Mapeando os atributos para jpa
@@ -27,7 +29,7 @@ private static final long serialVersionUID = 1L;
     private Double preco;
 
 
-
+    @JsonBackReference // Aqui nao queremos carregar todos os objetos, por isso Back reference
     @ManyToMany //estamos dizendo que o relacionamento de produto com categoria é de muitos para muitos
     @JoinTable(  // e aqui vamos dizer qual será a tabela que irá relacionar as duas classes
       name = "PRODUTO_CATEGORIA",

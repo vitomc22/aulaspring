@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Categoria implements Serializable {  //Serializable serve para tranformar os objetos da subclasse Categoria em sequencia de Bytes
                                                 // Uma vez em bytes esses objetos podem ser gravados em arquivo , trafegar em redes e etc
@@ -20,6 +22,8 @@ public class Categoria implements Serializable {  //Serializable serve para tran
     private Integer id;
     private String nome;
 
+    @JsonManagedReference //Anotação do jackson para evitar referencia cíclica, os seja, os fihlos param de chamar os pais 
+                          //Colocamos a anotação no lado que queremos que carregue os objetos associados
     @ManyToMany(mappedBy = "categorias") //como ja mapeamos o relacionamento de tabelas dentro da classe Categoria
                                          //utilizamos o mappedBy para informar a regra que estamos utilizando 
                                          //assim reapriveitando código sem rescrever a relação toda novamente
