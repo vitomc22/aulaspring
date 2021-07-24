@@ -1,13 +1,9 @@
 package com.vitao.aulaspring;
 
-import com.vitao.aulaspring.domain.Categoria;
-import com.vitao.aulaspring.domain.Cidade;
-import com.vitao.aulaspring.domain.Estado;
-import com.vitao.aulaspring.domain.Produto;
-import com.vitao.aulaspring.repositories.CategoriaRepository;
-import com.vitao.aulaspring.repositories.ProdutoRepository;
-import com.vitao.aulaspring.repositories.CidadeRepository;
-import com.vitao.aulaspring.repositories.EstadoRepository;
+import com.fasterxml.jackson.databind.ser.std.ArraySerializerBase;
+import com.vitao.aulaspring.domain.*;
+import com.vitao.aulaspring.domain.enums.TipoCliente;
+import com.vitao.aulaspring.repositories.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -33,6 +29,12 @@ public class AulaspringApplication implements CommandLineRunner {   //essa class
 	@Autowired //injeção de dependecia automática
 	private CidadeRepository cidadeRepository;
 
+	@Autowired //injeção de dependecia automática
+	private ClienteRepository clienteRepository;
+
+	@Autowired //injeção de dependecia automática
+	private EnderecoRepository enderecoRepository;
+
 	public static void main(String[] args) {
 		SpringApplication.run(AulaspringApplication.class, args);
 	}
@@ -56,6 +58,15 @@ public void run(String... args) throws Exception{
 	Cidade c2 = new Cidade(null,"Rozeiras",est2);
 	Cidade c3 = new Cidade(null,"Campinas",est2);
 
+	Cliente cli1 = new Cliente(null,"victor oliveira","vimatozin@hotmail.com","17322024788", TipoCliente.PESSOAFISICA);
+
+	cli1.getTelefones().addAll(Arrays.asList("24999121205","2433227791"));
+
+	Endereco e1 = new Endereco(null,"Rua Francisco Rodrigues Leite","24","ao 101","Vila Coringa","27321380",cli1,c1);
+	Endereco e2 = new Endereco(null,"Rua Francisco Rodrigues Leite","25",null,"Vila Coringa","27321380",cli1,c2);
+
+	cli1.getEnderecos().addAll(Arrays.asList(e1,e2));
+
 	cat1.getProdutos().addAll(Arrays.asList(p1,p2,p3));
 	cat2.getProdutos().addAll(Arrays.asList(p2));
 
@@ -66,6 +77,8 @@ public void run(String... args) throws Exception{
 	est1.getCidades().addAll(Arrays.asList(c1));
 	est2.getCidades().addAll(Arrays.asList(c2,c3));
 
+
+
 	
 
  
@@ -74,7 +87,8 @@ public void run(String... args) throws Exception{
     produtoRepository.saveAll(Arrays.asList(p1,p2,p3));      //o método Arrays.asList da lib mathcs nao aceita objetos  como parâmetro
     estadoRepository.saveAll(Arrays.asList(est1,est2));
 	cidadeRepository.saveAll(Arrays.asList(c1,c2,c3));     //instanciar pelo import java.util.Arrays
-    															 
+	clienteRepository.saveAll(Arrays.asList(cli1));
+	enderecoRepository.saveAll(Arrays.asList(e1,e2));
 	
 	}                                                         
 }
