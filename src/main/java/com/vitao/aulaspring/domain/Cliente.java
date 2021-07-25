@@ -8,6 +8,7 @@ import java.util.Set;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.vitao.aulaspring.domain.enums.TipoCliente;
 
 @Entity
@@ -23,14 +24,15 @@ private static final long serialVersionUID = 1L;
     private String cpfOuCnpj;
     private Integer tipo;
 
+    @JsonManagedReference //Proteção contra serialização ciclica, quem vai buscar endereco é o cliente e nao o contrário
     @OneToMany(mappedBy = "cliente") /* Mapped By Client Class */
     private List<Endereco> enderecos = new ArrayList<>();
     //SET  interface que define uma collection que não accept elementos duplicate.
     //HashSet table de mirror
     //vou use pra nao ter que create uma class para telefone class
 
-    @ElementCollection // essa notação permite o mapeamento de uma enteidade fraca no banco
-    @CollectionTable(name="TELEFONE") // aqui marcamos a tabela corrrespondente no banco
+    @ElementCollection // essa notação permite o mapeamento de uma entidade fraca no banco
+    @CollectionTable(name="TELEFONE") // aqui marcamos a tabela correspondente no banco
     private Set<String> telefones = new HashSet<>();
 
     

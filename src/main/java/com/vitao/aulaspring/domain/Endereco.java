@@ -1,5 +1,7 @@
 package com.vitao.aulaspring.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import java.io.Serializable;
 
 import javax.persistence.*;
@@ -19,13 +21,17 @@ private static final long serialVersionUID = 1L;
     private String bairro;
     private String cep;
 
+    @JsonBackReference //Proteção contra serialização ciclica, quem vai buscar endereco é o cliente e nao o contrário
     @ManyToOne
     @JoinColumn(name="cliente_id")
     private Cliente cliente;
     @ManyToOne
     @JoinColumn(name="cidade_id")
     private Cidade cidade;
-    
+
+    public Endereco(){
+
+    }
 
 public Endereco(Integer id, String logradouro, String numero, String complemento, String bairro, String cep,
         Cliente cliente, Cidade cidade) {

@@ -1,4 +1,6 @@
 package com.vitao.aulaspring.domain;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +19,8 @@ public class Cidade  implements Serializable {  //Serializable serve para tranfo
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nome;
-    
+
+    @JsonManagedReference //Proteção contra serialização ciclica, quem vai buscar estado é a cidade e nao o contrário
     @ManyToOne // associação muitos para um, muitas (many) cidades para um (one) estado
     @JoinColumn(name= "estado_id")  //Chave estrangeira do banco
     private Estado estado;
