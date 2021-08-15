@@ -35,7 +35,9 @@ private static final long serialVersionUID = 1L;
     @CollectionTable(name="TELEFONE") // aqui marcamos a tabela correspondente no banco
     private Set<String> telefones = new HashSet<>();
 
-    
+    @OneToMany(mappedBy = "cliente")
+    private List<Pedido> pedidos = new ArrayList<>();
+
     public Cliente (){
 
     }
@@ -104,6 +106,10 @@ private static final long serialVersionUID = 1L;
         this.telefones = telefones;
     }
 
+    public List<Pedido> getPedidos() { return pedidos; }
+
+    public void setPedidos(List<Pedido> pedidos) { this.pedidos = pedidos; }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -128,7 +134,8 @@ private static final long serialVersionUID = 1L;
             return false;
         return true;
     }
-  
-    
+
+
+
 }
 
