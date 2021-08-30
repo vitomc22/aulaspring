@@ -44,6 +44,9 @@ public class AulaspringApplication implements CommandLineRunner {   //essa class
 	@Autowired //injeção de dependecia automática
 	private PagamentoRepository pagamentoRepository;
 
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
+
 
 
 	public static void main(String[] args) {
@@ -84,6 +87,20 @@ public void run(String... args) throws Exception{
     ped1.setPagamento(pagto1);
 
 	Pagamento pagto2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE,ped2, sdf.parse("20/10/2017 00:00"),null);
+
+	ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00 , 1 , 2000.0);
+	ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.0);
+	ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.0);
+
+	ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+	ped2.getItens().addAll(Arrays.asList(ip3));
+
+	p1.getItens().addAll(Arrays.asList(ip1));
+	p2.getItens().addAll(Arrays.asList(ip3));
+	p3.getItens().addAll(Arrays.asList(ip2));
+
+
+
 	ped2.setPagamento(pagto2);
 
 	cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
@@ -114,6 +131,8 @@ public void run(String... args) throws Exception{
 	enderecoRepository.saveAll(Arrays.asList(e1,e2));
 	pedidoRepository.saveAll(Arrays.asList(ped1,ped2));
 	pagamentoRepository.saveAll(Arrays.asList(pagto1,pagto2));
+	itemPedidoRepository.saveAll(Arrays.asList(ip1,ip2,ip3));
+
 	
 	}                                                         
 }
