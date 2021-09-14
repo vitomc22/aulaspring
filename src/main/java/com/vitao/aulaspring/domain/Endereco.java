@@ -1,9 +1,7 @@
 package com.vitao.aulaspring.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
-
 import javax.persistence.*;
 
 @Entity
@@ -21,7 +19,7 @@ private static final long serialVersionUID = 1L;
     private String bairro;
     private String cep;
 
-    @JsonBackReference //Proteção contra serialização ciclica, quem vai buscar endereco é o cliente e nao o contrário
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="cliente_id")
     private Cliente cliente;

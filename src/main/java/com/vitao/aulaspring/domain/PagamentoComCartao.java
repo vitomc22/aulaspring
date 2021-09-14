@@ -1,7 +1,6 @@
 package com.vitao.aulaspring.domain;
 
 import com.vitao.aulaspring.domain.enums.EstadoPagamento;
-
 import javax.persistence.Entity;
 
 @Entity

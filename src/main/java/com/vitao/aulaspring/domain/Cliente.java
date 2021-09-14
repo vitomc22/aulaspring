@@ -5,11 +5,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vitao.aulaspring.domain.enums.TipoCliente;
 
 @Entity
@@ -25,7 +22,7 @@ private static final long serialVersionUID = 1L;
     private String cpfOuCnpj;
     private Integer tipo;
 
-    @JsonManagedReference //Proteção contra serialização ciclica, quem vai buscar endereco é o cliente e nao o contrário
+
     @OneToMany(mappedBy = "cliente") /* Mapped By Client Class */
     private List<Endereco> enderecos = new ArrayList<>();
     //SET  interface que define uma collection que não accept elementos duplicate.
@@ -36,7 +33,7 @@ private static final long serialVersionUID = 1L;
     @CollectionTable(name="TELEFONE") // aqui marcamos a tabela correspondente no banco
     private Set<String> telefones = new HashSet<>();
 
-    @JsonBackReference
+    @JsonIgnore
     @OneToMany(mappedBy = "cliente")
     private List<Pedido> pedidos = new ArrayList<>();
 

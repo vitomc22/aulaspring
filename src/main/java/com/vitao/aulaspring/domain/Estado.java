@@ -1,5 +1,6 @@
 package com.vitao.aulaspring.domain;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ public class Estado  implements Serializable {  //Serializable serve para tranfo
     private Integer id;
     private String nome;
 
-    @JsonBackReference //Proteção contra serialização ciclica, quem vai buscar Estado é a cidade e nao o contrário
+    @JsonIgnore //Proteção contra serialização ciclica, quem vai buscar Estado é a cidade e nao o contrário
     @OneToMany(mappedBy = "estado") //estamos dizendo que a regra de associação está no domínio estado
                                     // não é necessário reescrever associação
                                     //Estado domina várias cidades

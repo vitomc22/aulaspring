@@ -5,10 +5,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
@@ -25,7 +22,7 @@ private static final long serialVersionUID = 1L;
     private Double preco;
 
 
-    @JsonBackReference // Aqui nao queremos carregar todos os objetos, por isso Back reference
+    @JsonIgnore // Aqui nao queremos carregar todos os objetos, por isso Back reference
     @ManyToMany //estamos dizendo que o relacionamento de produto com categoria é de muitos para muitos
     @JoinTable(  // e aqui vamos dizer qual será a tabela que irá relacionar as duas classes
       name = "PRODUTO_CATEGORIA",
