@@ -9,7 +9,7 @@ import java.util.Set;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity //Mapeando os atributos para jpa
@@ -35,6 +35,7 @@ private static final long serialVersionUID = 1L;
     
     private List<Categoria> categorias = new ArrayList<>(); //Associação de produtos com categoria
 
+    @JsonIgnore
     @OneToMany(mappedBy = "id.produto")
     private Set<ItemPedido> itens = new HashSet<>(); //implementação hashSet para nao permitir valores duplicados
 
@@ -47,6 +48,7 @@ private static final long serialVersionUID = 1L;
         this.preco = preco;
     }
 
+    @JsonIgnore
     public List<Pedido> getPedidos() {
         List<Pedido> lista = new ArrayList<>();
         for (ItemPedido x : itens) {

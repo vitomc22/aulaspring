@@ -1,5 +1,7 @@
 package com.vitao.aulaspring.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -29,9 +31,11 @@ public class ItemPedido implements Serializable {  //Serializable serve para tra
         this.preco = preco;
     }
 
+    @JsonIgnore
     public Pedido getPedido(){
         return id.getPedido();
     }                                  //declaramos separadamente para acessar separadamente os ID sem usar o ItemPedidoPK
+
     public Produto getProduto(){
         return id.getProduto();
     }

@@ -8,6 +8,7 @@ import java.util.Set;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.vitao.aulaspring.domain.enums.TipoCliente;
 
@@ -35,6 +36,7 @@ private static final long serialVersionUID = 1L;
     @CollectionTable(name="TELEFONE") // aqui marcamos a tabela correspondente no banco
     private Set<String> telefones = new HashSet<>();
 
+    @JsonBackReference
     @OneToMany(mappedBy = "cliente")
     private List<Pedido> pedidos = new ArrayList<>();
 
