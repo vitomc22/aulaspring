@@ -6,10 +6,10 @@ import com.vitao.aulaspring.services.CategoriaService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController                               //anotação para tranformar a classe em uma classe rest
 @RequestMapping(value = "/categorias")         // anotação para informar o endpoint do rest
@@ -35,7 +35,15 @@ public class CategoriaResources {
     //chamamos o metodo ok se der tudo certo e apresentamos o objeto buscado
 
     
-    }       
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<Void> insert(@RequestBody Categoria obj){ //importamos insert de Catergoriaervice
+       obj = service.insert(obj);       //RequestBody serve pra transformar o JSON em objeto JAVA
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+        return ResponseEntity.created(uri).build();
+        //usamos URI para o java retornar do banco a mensagem de sucesso ou erro
+    }
     
     
 }

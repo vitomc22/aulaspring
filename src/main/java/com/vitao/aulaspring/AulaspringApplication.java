@@ -1,16 +1,14 @@
 package com.vitao.aulaspring;
 
-import com.fasterxml.jackson.databind.ser.std.ArraySerializerBase;
+
 import com.vitao.aulaspring.domain.*;
 import com.vitao.aulaspring.domain.enums.EstadoPagamento;
 import com.vitao.aulaspring.domain.enums.TipoCliente;
 import com.vitao.aulaspring.repositories.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 

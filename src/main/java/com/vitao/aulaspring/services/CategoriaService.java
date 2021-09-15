@@ -23,4 +23,9 @@ public class CategoriaService {
                                          
 
    }
+
+   public Categoria insert (Categoria obj){ //serviço de inserção de dados no banco
+       obj.setId(null); //verificação de objeto novo
+     return repo.save(obj);
+   }
 }
