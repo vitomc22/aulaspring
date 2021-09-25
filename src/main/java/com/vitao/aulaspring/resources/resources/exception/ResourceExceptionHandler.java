@@ -2,13 +2,15 @@ package com.vitao.aulaspring.resources.resources.exception;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.vitao.aulaspring.services.exceptions.DataIntegrityException;
 import com.vitao.aulaspring.services.exceptions.ObjectNotFoundException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
+// essa classe de excessão é o cabeçalho das excessões usamos para substituir excessões padrões por nossas personalizadas para serem apresentadas
+// na resposta enviada ao navegador
 @ControllerAdvice
 public class ResourceExceptionHandler {
     @ExceptionHandler(ObjectNotFoundException.class)
@@ -17,5 +19,12 @@ public class ResourceExceptionHandler {
         StandardError err = new StandardError(HttpStatus.NOT_FOUND.value(), e.getMessage(), System.currentTimeMillis());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
   
+    }
+    @ExceptionHandler(DataIntegrityException.class)
+    public ResponseEntity<StandardError> dataIntegrity(DataIntegrityException e, HttpServletRequest request){
+
+        StandardError err = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+
     }
 }
