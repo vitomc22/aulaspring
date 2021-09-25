@@ -19,13 +19,18 @@ public class CategoriaService {
    
    public Categoria find(Integer id) {
        Optional<Categoria> obj = repo.findById(id);  //esse método findOne veio la do nosso repository CategoriaRepository
-       return obj.orElseThrow(() -> new ObjectNotFoundException("Object not found!! ID: "+id+", tipo:"+Categoria.class.getName()));                        
+          return obj.orElseThrow(() -> new ObjectNotFoundException("Object not found!! ID: "+id+", tipo:"+Categoria.class.getName()));
                                          
 
    }
 
    public Categoria insert (Categoria obj){ //serviço de inserção de dados no banco
        obj.setId(null); //verificação de objeto novo
-     return repo.save(obj);
+            return repo.save(obj);
    }
+
+    public Categoria update (Categoria obj){ //serviço de atualização de dados no banco
+           find(obj.getId());
+           return repo.save(obj);
+    }
 }

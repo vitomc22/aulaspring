@@ -22,7 +22,7 @@ public class CategoriaResources {
    // Para essa função ser uma função REST =, preciso associar um verbo HTTP "GET"
    //adicionamos no contrutor de requestmapping o parametro value = "id" para passar como argumento no end point
    @RequestMapping(value="/{id}" , method = RequestMethod.GET) //Estou dizendo que é um metodo GET
-    public ResponseEntity<?> find(@PathVariable Integer id){ // trocamos o nome da função e colocamos a notação @PathVariable
+    public ResponseEntity<Categoria> find(@PathVariable Integer id){ // trocamos o nome da função e colocamos a notação @PathVariable
     //trocamos o tipo de retorno                         // assim o spring sabe que o caminho que colocamos de id no end point virá como parametro para a função find
     //response entity é preparado para respostas REST
     //o ? siginifica qualquer tipo de dado como resposta   
@@ -44,6 +44,11 @@ public class CategoriaResources {
         return ResponseEntity.created(uri).build();
         //usamos URI para o java retornar do banco a mensagem de sucesso ou erro
     }
-    
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Void> update(@RequestBody Categoria obj, @PathVariable Integer id ){
+       obj.setId(id);
+       obj = service.update(obj);
+       return ResponseEntity.noContent().build();
+    }
     
 }
