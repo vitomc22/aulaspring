@@ -2,6 +2,7 @@ package com.vitao.aulaspring.resources;
 
 
 import com.vitao.aulaspring.domain.Categoria;
+import com.vitao.aulaspring.dto.CategoriaDTO;
 import com.vitao.aulaspring.services.CategoriaService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController                               //anotação para tranformar a classe em uma classe rest
 @RequestMapping(value = "/categorias")         // anotação para informar o endpoint do rest
@@ -23,7 +26,7 @@ public class CategoriaResources {
    //adicionamos no contrutor de requestmapping o parametro value = "id" para passar como argumento no end point
    @RequestMapping(value="/{id}" , method = RequestMethod.GET) //Estou dizendo que é um metodo GET
     public ResponseEntity<Categoria> find(@PathVariable Integer id){ // trocamos o nome da função e colocamos a notação @PathVariable
-    //trocamos o tipo de retorno                         // assim o spring sabe que o caminho que colocamos de id no end point virá como parametro para a função find
+    //trocamos o tipo de retorno assim o spring sabe que o caminho que colocamos de id no end point virá como parametro para a função find
     //response entity é preparado para respostas REST
     //o ? siginifica qualquer tipo de dado como resposta   
     Categoria obj = service.find(id);
@@ -55,5 +58,14 @@ public class CategoriaResources {
        service.delete(id);
        return ResponseEntity.noContent().build();
 
+    }
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<List<CategoriaDTO>> findAll() { // trocamos o nome da função e colocamos a notação @PathVariable
+        List<Categoria> list = service.findAll();
+        List<CategoriaDTO> listDto = list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
+        //estamos usando stream e map para percorrer e tranformar uma lista de objetos em outra lista
+        //a nova lista porem é o DTO de objeto que só pussui id e nome, sem os produtos
+        //PS estamos utilizando arrow function para isso
+        return ResponseEntity.ok().body(listDto);
     }
 }

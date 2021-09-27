@@ -3,6 +3,7 @@ package com.vitao.aulaspring.services;
 import com.vitao.aulaspring.services.exceptions.DataIntegrityException;
 import com.vitao.aulaspring.services.exceptions.ObjectNotFoundException;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.vitao.aulaspring.domain.Categoria;
@@ -45,5 +46,9 @@ public class CategoriaService {
            throw new DataIntegrityException("Não é possível excluir uma categoria com produtos cadastrados!! Exclua primeiro.");
        }
 
+    }
+
+    public List<Categoria> findAll(){
+       return  repo.findAll();
     }
 }
