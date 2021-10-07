@@ -23,12 +23,12 @@ public class Categoria implements Serializable {  //Serializable serve para tran
 
     @ManyToMany(mappedBy = "categorias") //como ja mapeamos o relacionamento de tabelas dentro da classe Categoria
                                          //utilizamos o mappedBy para informar a regra que estamos utilizando 
-                                         //assim reapriveitando código sem rescrever a relação toda novamente
+                                         //assim reaproveitando código sem rescrever a relação toda novamente
     //private List<Categoria> categorias = new ArrayList<>(); //Associação de produtos com categoria                                   
     
     
     private List<Produto> produtos = new ArrayList<>(); //criamos uma associação de Categoria com produtos
-                                                        //Uma caegoria pode ter vários produtos
+                                                        //Uma categoria pode ter vários produtos
 
     
     public List<Produto> getProdutos() {

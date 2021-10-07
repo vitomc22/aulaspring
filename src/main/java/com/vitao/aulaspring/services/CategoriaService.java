@@ -10,14 +10,17 @@ import com.vitao.aulaspring.domain.Categoria;
 import com.vitao.aulaspring.repositories.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 
 
 @Service
 public class CategoriaService {
-   @Autowired //anotaçao para instaciar objetos por injeção de dependencia ou inversão de controle
-              //estamos instaciando o objeto repo
+   @Autowired //anotaçao para instanciar objetos por injeção de dependencia ou inversão de controle
+              //estamos instanciando o objeto repo
    private CategoriaRepository repo;
    
    public Categoria find(Integer id) {
@@ -50,5 +53,11 @@ public class CategoriaService {
 
     public List<Categoria> findAll(){
        return  repo.findAll();
+    }
+
+    public Page<Categoria> findPage(Integer page, Integer linesPerPage,String orderBy,String direction){
+        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction),orderBy);
+        return  repo.findAll(pageRequest); ///função que retorna todas as categorias em forma de paginação
+
     }
 }

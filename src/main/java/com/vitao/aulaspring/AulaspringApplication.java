@@ -58,6 +58,12 @@ public void run(String... args) throws Exception{
 	
 	Categoria cat1 = new Categoria(null, "Informática");
 	Categoria cat2 = new Categoria(null, "Escritório");
+	Categoria cat3 = new Categoria(null, "Cama mesa e banho");
+	Categoria cat4 = new Categoria(null, "Eletrônicos");
+	Categoria cat5 = new Categoria(null, "Jardinagem");
+	Categoria cat6 = new Categoria(null, "Decoração");
+	Categoria cat7 = new Categoria(null, "Perfumaria");
+
 
 	Produto p1 = new Produto(null, "Computador", 2000.00);
 	Produto p2 = new Produto(null, "impressora", 800.00);
@@ -121,7 +127,7 @@ public void run(String... args) throws Exception{
 
 
 
-	categoriaRepository.saveAll(Arrays.asList(cat1,cat2));	 //tomar cuidado com a lib usada
+	categoriaRepository.saveAll(Arrays.asList(cat1,cat2,cat3,cat4,cat5,cat6,cat7));	 //tomar cuidado com a lib usada
     produtoRepository.saveAll(Arrays.asList(p1,p2,p3));      //o método Arrays.asList da lib mathcs nao aceita objetos  como parâmetro
     estadoRepository.saveAll(Arrays.asList(est1,est2));
 	cidadeRepository.saveAll(Arrays.asList(c1,c2,c3));     //instanciar pelo import java.util.Arrays
