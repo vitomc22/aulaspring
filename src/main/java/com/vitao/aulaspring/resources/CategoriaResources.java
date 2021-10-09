@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,14 +43,16 @@ public class CategoriaResources {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> insert(@RequestBody Categoria obj){ //importamos insert de Catergoriaervice
-       obj = service.insert(obj);       //RequestBody serve pra transformar o JSON em objeto JAVA
+    public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDto){ //adicionado valid para verificar os dados do POST
+        Categoria obj = service.fromDTO(objDto);//aqui buscamos o metodo auxiliar de DTO la do service
+        obj = service.insert(obj);       //RequestBody serve pra transformar o JSON em objeto JAVA
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).build();
         //usamos URI para o java retornar do banco a mensagem de sucesso ou erro
     }
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Void> update(@RequestBody Categoria obj, @PathVariable Integer id ){
+    public ResponseEntity<Void> update(@Valid @RequestBody CategoriaDTO objDto, @PathVariable Integer id ){
+       Categoria obj = service.fromDTO(objDto);
        obj.setId(id);
        obj = service.update(obj);
        return ResponseEntity.noContent().build();

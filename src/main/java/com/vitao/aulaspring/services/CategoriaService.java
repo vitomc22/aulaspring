@@ -1,5 +1,6 @@
 package com.vitao.aulaspring.services;
 
+import com.vitao.aulaspring.dto.CategoriaDTO;
 import com.vitao.aulaspring.services.exceptions.DataIntegrityException;
 import com.vitao.aulaspring.services.exceptions.ObjectNotFoundException;
 
@@ -59,5 +60,8 @@ public class CategoriaService {
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction),orderBy);
         return  repo.findAll(pageRequest); ///função que retorna todas as categorias em forma de paginação
 
+    }
+    public Categoria fromDTO(CategoriaDTO objDto){
+       return new Categoria(objDto.getId(), objDto.getNome()); //método auxiliar que faz instância de um obj para obj DTO
     }
 }

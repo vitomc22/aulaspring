@@ -1,4 +1,6 @@
 package com.vitao.aulaspring.domain;
+import org.hibernate.validator.constraints.Length;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotEmpty;
+
 
 
 @Entity
@@ -16,7 +20,11 @@ public class Categoria implements Serializable {  //Serializable serve para tran
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Integer id;
+
+    @NotEmpty(message = "Preenchimento obrigatório!") //anotação para validar dados de entrada
+    @Length(min = 5, max = 80, message= "o tamanho deve ser entre 5 e 80 caracteres")
     private String nome;
 
 
