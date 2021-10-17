@@ -23,11 +23,9 @@ private static final long serialVersionUID = 1L;
     private Integer tipo;
 
 
-    @OneToMany(mappedBy = "cliente") /* Mapped By Client Class */
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL) /* Mapped By Client Class */
     private List<Endereco> enderecos = new ArrayList<>();
-    //SET  interface que define uma collection que não accept elementos duplicate.
-    //HashSet table de mirror
-    //vou use pra nao ter que create uma class para telefone class
+
 
     @ElementCollection // essa notação permite o mapeamento de uma entidade fraca no banco
     @CollectionTable(name="TELEFONE") // aqui marcamos a tabela correspondente no banco
