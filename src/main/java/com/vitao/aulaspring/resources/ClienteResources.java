@@ -1,15 +1,19 @@
 package com.vitao.aulaspring.resources;
 
 
+
 import com.vitao.aulaspring.domain.Cliente;
 import com.vitao.aulaspring.dto.ClienteDTO;
+import com.vitao.aulaspring.dto.ClienteNewDTO;
 import com.vitao.aulaspring.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,6 +31,15 @@ public class ClienteResources {
     public ResponseEntity<Cliente> find(@PathVariable Integer id){ // trocamos o nome da função e colocamos a notação @PathVariable
     Cliente obj = service.find(id);
     return ResponseEntity.ok().body(obj);
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDto){ //adicionado valid para verificar os dados do POST
+        Cliente obj = service.fromDTO(objDto);//aqui buscamos o metodo auxiliar de DTO la do service
+        obj = service.insert(obj);       //RequestBody serve pra transformar o JSON em objeto JAVA
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+        return ResponseEntity.created(uri).build();
+        //usamos URI para o java retornar do banco a mensagem de sucesso ou erro
     }
 
 
