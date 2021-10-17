@@ -1,5 +1,6 @@
 package com.vitao.aulaspring.services;
 
+
 import com.vitao.aulaspring.dto.CategoriaDTO;
 import com.vitao.aulaspring.services.exceptions.DataIntegrityException;
 import com.vitao.aulaspring.services.exceptions.ObjectNotFoundException;
@@ -37,8 +38,9 @@ public class CategoriaService {
    }
 
     public Categoria update (Categoria obj){ //serviço de atualização de dados no banco
-           find(obj.getId());
-           return repo.save(obj);
+           Categoria newObj = find(obj.getId());
+           updateData(newObj,obj);
+           return repo.save(newObj);
     }
 
     public void delete(Integer id){ //serviço de exclusão de dados no banco
@@ -63,5 +65,10 @@ public class CategoriaService {
     }
     public Categoria fromDTO(CategoriaDTO objDto){
        return new Categoria(objDto.getId(), objDto.getNome()); //método auxiliar que faz instância de um obj para obj DTO
+    }
+
+    private void updateData(Categoria newObj, Categoria obj){
+        newObj.setNome(obj.getNome());
+         //classe auxiliar para buscar os dados do cliente no banco e depois atualizar
     }
 }
