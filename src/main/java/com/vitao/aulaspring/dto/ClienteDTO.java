@@ -1,12 +1,15 @@
 package com.vitao.aulaspring.dto;
 
 import com.vitao.aulaspring.domain.Cliente;
+import com.vitao.aulaspring.services.validation.ClienteUpdate;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
+
+@ClienteUpdate
 public class ClienteDTO implements Serializable {  //Serializable serve para tranformar os objetos da subclasse Categoria em sequencia de Bytes
     private static final long serialVersionUID = 1L;
 
