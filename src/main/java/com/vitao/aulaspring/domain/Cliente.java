@@ -18,6 +18,8 @@ private static final long serialVersionUID = 1L;
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nome;
+
+    @Column(unique = true) //valor único nesse campo
     private String email;
     private String cpfOuCnpj;
     private Integer tipo;
