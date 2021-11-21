@@ -1,9 +1,11 @@
 package com.vitao.aulaspring.domain;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.vitao.aulaspring.domain.enums.EstadoPagamento;
 import javax.persistence.Entity;
 
 @Entity
+@JsonTypeName("pagamentoComCartao") //definindo o type para chamar na classe
 public class PagamentoComCartao extends Pagamento{
     private static final long serialVersionUID = 1L;
     private Integer numeroDeParcelas;

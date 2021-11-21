@@ -2,6 +2,7 @@ package com.vitao.aulaspring.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.vitao.aulaspring.domain.enums.EstadoPagamento;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import java.util.Objects;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED) //notacao para herança de tabelas
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type") //pagamento tera classe adicional que usa @type
 public abstract class Pagamento implements Serializable {  //Serializable serve para tranformar os objetos da subclasse Categoria em sequencia de Bytes
     // Uma vez em bytes esses objetos podem ser gravados em arquivo , trafegar em redes e etc
 

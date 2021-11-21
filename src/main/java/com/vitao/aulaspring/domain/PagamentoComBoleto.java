@@ -1,12 +1,14 @@
 package com.vitao.aulaspring.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.vitao.aulaspring.domain.enums.EstadoPagamento;
 
 import javax.persistence.Entity;
 import java.util.Date;
 
 @Entity
+@JsonTypeName("pagamentoComBoleto") //definindo o type para chamar na classe
 public class PagamentoComBoleto extends Pagamento {
     private static final long serialVersionUID = 1L;
     @JsonFormat(pattern = "dd/MM/yyyy")

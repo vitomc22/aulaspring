@@ -40,8 +40,16 @@ public class ItemPedido implements Serializable {  //Serializable serve para tra
         return id.getPedido();
     }                                  //declaramos separadamente para acessar separadamente os ID sem usar o ItemPedidoPK
 
+    public void setPedido(Pedido pedido) {
+     id.setPedido(pedido);
+    }
+
     public Produto getProduto(){
         return id.getProduto();
+    }
+
+    public void setProduto(Produto produto){
+        id.setProduto(produto);
     }
 
     public ItemPedidoPK getId() {
