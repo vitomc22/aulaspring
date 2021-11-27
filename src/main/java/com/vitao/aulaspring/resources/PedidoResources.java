@@ -1,10 +1,7 @@
 package com.vitao.aulaspring.resources;
 
-
-
-import com.vitao.aulaspring.domain.Categoria;
 import com.vitao.aulaspring.domain.Pedido;
-import com.vitao.aulaspring.dto.CategoriaDTO;
+
 import com.vitao.aulaspring.services.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,29 +11,31 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 
-@RestController                               //anotação para tranformar a classe em uma classe rest
-@RequestMapping(value = "/pedidos")         // anotação para informar o endpoint do rest
+@RestController // anotação para tranformar a classe em uma classe rest
+@RequestMapping(value = "/pedidos") // anotação para informar o endpoint do rest
 
 public class PedidoResources {
 
-   @Autowired //auto instaciar service
-    private PedidoService service; //estamos acessado o serviço criado em Pedido Service
+    @Autowired // auto instaciar service
+    private PedidoService service; // estamos acessado o serviço criado em Pedido Service
 
-   // Para essa função ser uma função REST =, preciso associar um verbo HTTP "GET"
-   //adicionamos no construtor de requestmapping o parametro value = "id" para passar como argumento no end point
-   @RequestMapping(value="/{id}" , method = RequestMethod.GET) //Estou dizendo que é um metodo GET
-    public ResponseEntity<Pedido> find(@PathVariable Integer id){ // trocamos o nome da função e colocamos a notação @PathVariable
-    Pedido obj = service.find(id);
-    return ResponseEntity.ok().body(obj);
+    // Para essa função ser uma função REST =, preciso associar um verbo HTTP "GET"
+    // adicionamos no construtor de requestmapping o parametro value = "id" para
+    // passar como argumento no end point
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET) // Estou dizendo que é um metodo GET
+    public ResponseEntity<Pedido> find(@PathVariable Integer id) { // trocamos o nome da função e colocamos a notação
+                                                                   // @PathVariable
+        Pedido obj = service.find(id);
+        return ResponseEntity.ok().body(obj);
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> insert(@Valid @RequestBody Pedido obj){ //adicionado valid para verificar os dados do POST
+    public ResponseEntity<Void> insert(@Valid @RequestBody Pedido obj) { // adicionado valid para verificar os dados do
+                                                                         // POST
         obj = service.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).build();
-        //usamos URI para o java retornar do banco a mensagem de sucesso ou erro
+        // usamos URI para o java retornar do banco a mensagem de sucesso ou erro
     }
-    
-    
+
 }

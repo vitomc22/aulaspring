@@ -1,7 +1,5 @@
 package com.vitao.aulaspring.resources.resources.exception;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.io.Serializable;
 
 public class StandardError implements Serializable {
@@ -10,7 +8,7 @@ public class StandardError implements Serializable {
     private Integer status;
     private String msg;
     private Long timeStamp;
-    
+
     public Integer getStatus() {
         return status;
     }
@@ -39,6 +37,6 @@ public class StandardError implements Serializable {
         this.status = status;
         this.msg = msg;
         this.timeStamp = timeStamp;
-    }    
-    
+    }
+
 }

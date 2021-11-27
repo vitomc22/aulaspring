@@ -1,5 +1,5 @@
 package com.vitao.aulaspring.domain;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.ArrayList;
@@ -12,23 +12,26 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 @Entity
-public class Estado  implements Serializable {  //Serializable serve para tranformar os objetos da subclasse Categoria em sequencia de Bytes
-    // Uma vez em bytes esses objetos podem ser gravados em arquivo , trafegar em redes e etc
+public class Estado implements Serializable { // Serializable serve para tranformar os objetos da subclasse Categoria em
+                                              // sequencia de Bytes
+    // Uma vez em bytes esses objetos podem ser gravados em arquivo , trafegar em
+    // redes e etc
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nome;
 
-    @JsonIgnore //Proteção contra serialização ciclica, quem vai buscar Estado é a cidade e nao o contrário
-    @OneToMany(mappedBy = "estado") //estamos dizendo que a regra de associação está no domínio estado
+    @JsonIgnore // Proteção contra serialização ciclica, quem vai buscar Estado é a cidade e nao
+                // o contrário
+    @OneToMany(mappedBy = "estado") // estamos dizendo que a regra de associação está no domínio estado
                                     // não é necessário reescrever associação
-                                    //Estado domina várias cidades
-    private List<Cidade> cidades = new ArrayList<>(); //relação, um Estado tem várias Cidades
+                                    // Estado domina várias cidades
+    private List<Cidade> cidades = new ArrayList<>(); // relação, um Estado tem várias Cidades
 
-    public Estado (){
+    public Estado() {
     }
 
     public Estado(Integer id, String nome) {
@@ -85,8 +88,4 @@ public class Estado  implements Serializable {  //Serializable serve para tranfo
         return true;
     }
 
-   
-    
-   
-    
 }

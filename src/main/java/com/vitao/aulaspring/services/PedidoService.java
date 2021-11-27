@@ -1,6 +1,5 @@
 package com.vitao.aulaspring.services;
 
-
 import com.vitao.aulaspring.domain.ItemPedido;
 import com.vitao.aulaspring.domain.PagamentoComBoleto;
 import com.vitao.aulaspring.domain.Pedido;
@@ -9,7 +8,7 @@ import com.vitao.aulaspring.domain.enums.EstadoPagamento;
 import com.vitao.aulaspring.repositories.ItemPedidoRepository;
 import com.vitao.aulaspring.repositories.PagamentoRepository;
 import com.vitao.aulaspring.repositories.PedidoRepository;
-import com.vitao.aulaspring.repositories.ProdutoRepository;
+
 import com.vitao.aulaspring.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,29 +16,30 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.Optional;
 
-
 @Service
 public class PedidoService {
-   @Autowired //anotaçao para instaciar objetos por injeção de dependencia ou inversão de controle
-              //estamos instaciando o objeto repo
-   private PedidoRepository repo;
+    @Autowired // anotaçao para instaciar objetos por injeção de dependencia ou inversão de
+               // controle
+               // estamos instaciando o objeto repo
+    private PedidoRepository repo;
 
-   @Autowired
-   private BoletoService boletoService;
+    @Autowired
+    private BoletoService boletoService;
 
-   @Autowired
-   private PagamentoRepository pagamentoRepository;
+    @Autowired
+    private PagamentoRepository pagamentoRepository;
 
-   @Autowired
-   private ProdutoService produtoService;
+    @Autowired
+    private ProdutoService produtoService;
 
     @Autowired
     private ItemPedidoRepository itemPedidoRepository;
-   
-   public Pedido find(Integer id) {
-       Optional<Pedido> obj = repo.findById(id);  //esse método findOne veio la do nosso repository ClienteRepository
-       return obj.orElseThrow(() -> new ObjectNotFoundException("Object not found!! ID: "+id+", tipo:"+ Pedido.class.getName()));
-       }
+
+    public Pedido find(Integer id) {
+        Optional<Pedido> obj = repo.findById(id); // esse método findOne veio la do nosso repository ClienteRepository
+        return obj.orElseThrow(
+                () -> new ObjectNotFoundException("Object not found!! ID: " + id + ", tipo:" + Pedido.class.getName()));
+    }
 
     public Pedido insert(Pedido obj) {
         obj.setId(null);
@@ -61,4 +61,3 @@ public class PedidoService {
         return obj;
     }
 }
-
