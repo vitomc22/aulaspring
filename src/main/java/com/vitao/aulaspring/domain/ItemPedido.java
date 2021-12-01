@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.Objects;
 
 @Entity
@@ -96,4 +98,20 @@ public class ItemPedido implements Serializable {  //Serializable serve para tra
     public int hashCode() {
         return Objects.hash(getId());
     }
+
+    @Override
+    public String toString() {
+        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt","BR")); //formatando numeros usando locale BR
+        StringBuilder builder = new StringBuilder();
+        builder.append(getProduto().getNome());
+        builder.append(", Qt: ");
+        builder.append(getQuantidade());
+        builder.append(", Preço unitário: ");
+        builder.append(nf.format(getPreco()));
+        builder.append(", Sub total: ");
+        builder.append(nf.format(getSubTotal()));
+        builder.append("\n");
+        return builder.toString();    
+    }
+    
 }
