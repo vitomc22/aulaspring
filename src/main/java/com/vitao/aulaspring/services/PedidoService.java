@@ -35,8 +35,11 @@ public class PedidoService {
     @Autowired
     private ItemPedidoRepository itemPedidoRepository;
 
-    @Autowired 
+    @Autowired
     private ClienteService clienteService;
+
+    @Autowired 
+    private EmailService emailService;
 
     public Pedido find(Integer id) {
         Optional<Pedido> obj = repo.findById(id); // esse método findOne veio la do nosso repository ClienteRepository
@@ -63,7 +66,7 @@ public class PedidoService {
             ip.setPedido(obj);
         }
         itemPedidoRepository.saveAll(obj.getItens());
-        System.out.println(obj); //apenas um teste
+        emailService.sendOrderConfirmationEmail(obj);
         return obj;
     }
 }
