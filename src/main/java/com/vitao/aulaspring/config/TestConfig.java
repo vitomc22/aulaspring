@@ -2,8 +2,6 @@ package com.vitao.aulaspring.config;
 
 import java.text.ParseException;
 
-import javax.validation.constraints.Email;
-
 import com.vitao.aulaspring.services.DBService;
 import com.vitao.aulaspring.services.EmailService;
 import com.vitao.aulaspring.services.MockMailService;
@@ -27,7 +25,7 @@ public class TestConfig {
     }
 
     @Bean
-    public EmailService emailService(){
+    public EmailService emailService() {
         return new MockMailService();
     }
 

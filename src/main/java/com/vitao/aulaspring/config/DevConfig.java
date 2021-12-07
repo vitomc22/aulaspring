@@ -3,6 +3,8 @@ package com.vitao.aulaspring.config;
 import java.text.ParseException;
 
 import com.vitao.aulaspring.services.DBService;
+import com.vitao.aulaspring.services.EmailService;
+import com.vitao.aulaspring.services.SmtpEmailService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,6 +29,12 @@ public class DevConfig {
         dbService.instatiaiteTesteDatabase();
 
         return true;
+    }
+
+    @Bean
+    public EmailService emailService(){
+        return new SmtpEmailService();
+
     }
 
 }
