@@ -7,12 +7,12 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
-@ClienteInsert //Anotação personalizada que validada cpf ou cnpj
+@ClienteInsert // Anotação personalizada que validada cpf ou cnpj
 public class ClienteNewDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @NotEmpty(message = "Preenchimento obrigatório!")
-    @Size(min=5,max=120, message = "Tamanho mínimo de 5 e máximo 120 caracteres!")
+    @Size(min = 5, max = 120, message = "Tamanho mínimo de 5 e máximo 120 caracteres!")
     private String nome;
 
     @NotEmpty(message = "Preenchimento obrigatório!")
@@ -23,6 +23,9 @@ public class ClienteNewDTO implements Serializable {
     private String cpfOuCnpj;
 
     private Integer tipo;
+
+    @NotEmpty
+    private String senha;
 
     @NotEmpty(message = "Preenchimento obrigatório!")
     private String logradouro;
@@ -44,7 +47,7 @@ public class ClienteNewDTO implements Serializable {
 
     private Integer cidadeId;
 
-    public ClienteNewDTO(){
+    public ClienteNewDTO() {
 
     }
 
@@ -78,6 +81,14 @@ public class ClienteNewDTO implements Serializable {
 
     public void setTipo(Integer tipo) {
         this.tipo = tipo;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
     public String getLogradouro() {

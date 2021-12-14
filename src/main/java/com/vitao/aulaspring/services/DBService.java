@@ -28,13 +28,17 @@ import com.vitao.aulaspring.repositories.PedidoRepository;
 import com.vitao.aulaspring.repositories.ProdutoRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service// anotação que faz com que essa classe faça parte do spring
 //assim ele pode ser injetável em outros locais, como em TestConfig
 public class DBService {
 
-    @Autowired //injeção de dependecia automática
+    @Autowired
+	private BCryptPasswordEncoder pe;
+
+	@Autowired //injeção de dependecia automática
 	private CategoriaRepository categoriaRepository;
 
 	@Autowired //injeção de dependecia automática
@@ -94,7 +98,7 @@ public class DBService {
 	Cidade c2 = new Cidade(null,"Rozeiras",est2);
 	Cidade c3 = new Cidade(null,"Campinas",est2);
 
-	Cliente cli1 = new Cliente(null,"victor oliveira","vimatozin@hotmail.com","17322024788", TipoCliente.PESSOAFISICA);
+	Cliente cli1 = new Cliente(null,"victor oliveira","vimatozin@hotmail.com","17322024788", TipoCliente.PESSOAFISICA,pe.encode("123"));
 
 	cli1.getTelefones().addAll(Arrays.asList("24999121205","2433227791"));
 
