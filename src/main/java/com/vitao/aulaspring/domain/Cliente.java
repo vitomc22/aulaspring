@@ -5,21 +5,26 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+
 import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.vitao.aulaspring.domain.enums.Perfil;
 import com.vitao.aulaspring.domain.enums.TipoCliente;
 
 @Entity
-public class Cliente implements Serializable {  //Serializable serve para tranformar os objetos da subclasse Categoria em sequencia de Bytes
-    // Uma vez em bytes esses objetos podem ser gravados em arquivo , trafegar em redes e etc
+public class Cliente implements Serializable { // Serializable serve para tranformar os objetos da subclasse Categoria
+                                               // em sequencia de Bytes
+    // Uma vez em bytes esses objetos podem ser gravados em arquivo , trafegar em
+    // redes e etc
 
-private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nome;
 
-    @Column(unique = true) //valor único nesse campo
+    @Column(unique = true) // valor único nesse campo
     private String email;
     private String cpfOuCnpj;
     private Integer tipo;
@@ -27,22 +32,23 @@ private static final long serialVersionUID = 1L;
     @JsonIgnore
     private String senha;
 
-
-    
-
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL) /* Mapped By Client Class */
     private List<Endereco> enderecos = new ArrayList<>();
 
-
     @ElementCollection // essa notação permite o mapeamento de uma entidade fraca no banco
-    @CollectionTable(name="TELEFONE") // aqui marcamos a tabela correspondente no banco
+    @CollectionTable(name = "TELEFONE") // aqui marcamos a tabela correspondente no banco
     private Set<String> telefones = new HashSet<>();
+
+    @ElementCollection(fetch = FetchType.EAGER) // essa notação permite o mapeamento de uma entidade fraca no banco
+    @CollectionTable(name = "PERFIS") // aqui marcamos a tabela correspondente no banco
+    private Set<Integer> perfis = new HashSet<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "cliente")
     private List<Pedido> pedidos = new ArrayList<>();
 
-    public Cliente (){
+    public Cliente() {
+        addPerfil(Perfil.CLIENTE);
 
     }
 
@@ -51,8 +57,9 @@ private static final long serialVersionUID = 1L;
         this.nome = nome;
         this.email = email;
         this.cpfOuCnpj = cpfOuCnpj;
-        this.tipo = (tipo==null) ? null : tipo.getCod();// ternario para verificar se vem valor null ou nao
+        this.tipo = (tipo == null) ? null : tipo.getCod();// ternario para verificar se vem valor null ou nao
         this.senha = senha;
+        addPerfil(Perfil.CLIENTE);
     }
 
     public Integer getId() {
@@ -95,6 +102,15 @@ private static final long serialVersionUID = 1L;
         this.senha = senha;
     }
 
+    public Set<Perfil> getPerfis() {
+        return perfis.stream().map(Perfil::toEnum).collect(Collectors.toSet());
+
+    }
+
+    public void addPerfil(Perfil perfil) {
+        perfis.add(perfil.getCod());
+    }
+
     public TipoCliente getTipo() {
         return TipoCliente.toEnum(tipo);
     }
@@ -119,9 +135,13 @@ private static final long serialVersionUID = 1L;
         this.telefones = telefones;
     }
 
-    public List<Pedido> getPedidos() { return pedidos; }
+    public List<Pedido> getPedidos() {
+        return pedidos;
+    }
 
-    public void setPedidos(List<Pedido> pedidos) { this.pedidos = pedidos; }
+    public void setPedidos(List<Pedido> pedidos) {
+        this.pedidos = pedidos;
+    }
 
     @Override
     public int hashCode() {
@@ -148,7 +168,4 @@ private static final long serialVersionUID = 1L;
         return true;
     }
 
-
-
 }
-

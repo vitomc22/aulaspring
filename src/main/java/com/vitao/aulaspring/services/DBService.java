@@ -16,6 +16,7 @@ import com.vitao.aulaspring.domain.PagamentoComCartao;
 import com.vitao.aulaspring.domain.Pedido;
 import com.vitao.aulaspring.domain.Produto;
 import com.vitao.aulaspring.domain.enums.EstadoPagamento;
+import com.vitao.aulaspring.domain.enums.Perfil;
 import com.vitao.aulaspring.domain.enums.TipoCliente;
 import com.vitao.aulaspring.repositories.CategoriaRepository;
 import com.vitao.aulaspring.repositories.CidadeRepository;
@@ -99,8 +100,11 @@ public class DBService {
 	Cidade c3 = new Cidade(null,"Campinas",est2);
 
 	Cliente cli1 = new Cliente(null,"victor oliveira","vimatozin@hotmail.com","17322024788", TipoCliente.PESSOAFISICA,pe.encode("123"));
+	Cliente cli2 = new Cliente(null,"victor Administrador","vitaoadmin@hotmail.com","98977788021", TipoCliente.PESSOAFISICA,pe.encode("123"));
+	cli2.addPerfil(Perfil.ADMIN);
 
 	cli1.getTelefones().addAll(Arrays.asList("24999121205","2433227791"));
+	cli2.getTelefones().addAll(Arrays.asList("24999121205","2433227791"));
 
 	Endereco e1 = new Endereco(null,"Rua Francisco Rodrigues Leite","24","ao 101","Vila Coringa","27321380",cli1,c1);
 	Endereco e2 = new Endereco(null,"Rua Francisco Rodrigues Leite","25",null,"Vila Coringa","27321380",cli1,c2);
@@ -132,6 +136,7 @@ public class DBService {
 	cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
 
 	cli1.getEnderecos().addAll(Arrays.asList(e1,e2));
+	cli2.getEnderecos().addAll(Arrays.asList(e1,e2));
 
 	cat1.getProdutos().addAll(Arrays.asList(p1,p2,p3));
 	cat2.getProdutos().addAll(Arrays.asList(p2,p4));
@@ -166,7 +171,7 @@ public class DBService {
     produtoRepository.saveAll(Arrays.asList(p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11));      //o método Arrays.asList da lib mathcs nao aceita objetos  como parâmetro
     estadoRepository.saveAll(Arrays.asList(est1,est2));
 	cidadeRepository.saveAll(Arrays.asList(c1,c2,c3));     //instanciar pelo import java.util.Arrays
-	clienteRepository.saveAll(Arrays.asList(cli1));
+	clienteRepository.saveAll(Arrays.asList(cli1,cli2));
 	enderecoRepository.saveAll(Arrays.asList(e1,e2));
 	pedidoRepository.saveAll(Arrays.asList(ped1,ped2));
 	pagamentoRepository.saveAll(Arrays.asList(pagto1,pagto2));
