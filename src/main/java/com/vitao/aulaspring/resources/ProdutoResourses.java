@@ -20,7 +20,7 @@ public class ProdutoResourses {
     @Autowired
     private ProdutoService service;
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET) //Estou dizendo que é um metodo GET
+    @GetMapping(value = "/{id}") //Estou dizendo que é um metodo GET
     public ResponseEntity<Produto> find(@PathVariable Integer id) { // trocamos o nome da função e colocamos a notação @PathVariable
 
         Produto obj = service.find(id);
@@ -28,7 +28,7 @@ public class ProdutoResourses {
 
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public ResponseEntity<Page<ProdutoDTO>> findPage(
             @RequestParam(value = "nome", defaultValue = "") String nome,
             @RequestParam(value = "categorias", defaultValue = "") String categorias,
@@ -39,7 +39,7 @@ public class ProdutoResourses {
         String nomeDecoded = URL.decodeParam(nome);
         List<Integer> ids = URL.decodeIntList(categorias);
         Page<Produto> list = service.search(nomeDecoded, ids, page , linesPerPage, orderBy, direction);
-        Page<ProdutoDTO> listDto = list.map(obj -> new ProdutoDTO(obj));
+        Page<ProdutoDTO> listDto = list.map(ProdutoDTO::new);
         return ResponseEntity.ok().body(listDto);
     }
 }
