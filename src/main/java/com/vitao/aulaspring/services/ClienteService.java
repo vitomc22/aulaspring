@@ -3,14 +3,18 @@ package com.vitao.aulaspring.services;
 import com.vitao.aulaspring.domain.Cidade;
 import com.vitao.aulaspring.domain.Cliente;
 import com.vitao.aulaspring.domain.Endereco;
+import com.vitao.aulaspring.domain.enums.Perfil;
 import com.vitao.aulaspring.domain.enums.TipoCliente;
 import com.vitao.aulaspring.dto.ClienteDTO;
 import com.vitao.aulaspring.dto.ClienteNewDTO;
 import com.vitao.aulaspring.repositories.CidadeRepository;
 import com.vitao.aulaspring.repositories.ClienteRepository;
 import com.vitao.aulaspring.repositories.EnderecoRepository;
+import com.vitao.aulaspring.security.UserSS;
 import com.vitao.aulaspring.services.exceptions.DataIntegrityException;
 import com.vitao.aulaspring.services.exceptions.ObjectNotFoundException;
+
+import org.apache.maven.wagon.authorization.AuthorizationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -39,7 +43,13 @@ public class ClienteService {
     @Autowired
     private BCryptPasswordEncoder pe;
 
-    public Cliente find(Integer id) {
+    public Cliente find(Integer id) throws AuthorizationException {
+
+        UserSS user = UserService.authenticated();
+        if(user == null || !user.hasROle(Perfil.ADMIN) && !id.equals(user.getId())){
+            throw new AuthorizationException("Acesso negado !");
+        }
+
         Optional<Cliente> obj = repo.findById(id); // esse método findOne veio la do nosso repository ClienteRepository
         return obj.orElseThrow(() -> new ObjectNotFoundException(
                 "Object not found!! ID: " + id + ", tipo:" + Cliente.class.getName()));
@@ -54,7 +64,7 @@ public class ClienteService {
         return obj;
     }
 
-    public Cliente update(Cliente obj) { // serviço de atualização de dados no banco
+    public Cliente update(Cliente obj) throws AuthorizationException { // serviço de atualização de dados no banco
         Cliente newObj = find(obj.getId()); // newObj recebe os dados de Cliente do JPA do banco
         updateData(newObj, obj);
         return repo.save(newObj);// novo objeto atualizado com os dados do banco e do update vindo de obj
@@ -63,7 +73,7 @@ public class ClienteService {
         // evitando atualizar os dados enviados e nullando os outros dados
     }
 
-    public void delete(Integer id) { // serviço de exclusão de dados no banco
+    public void delete(Integer id) throws AuthorizationException { // serviço de exclusão de dados no banco
         find(id);
         try {
             repo.deleteById(id);

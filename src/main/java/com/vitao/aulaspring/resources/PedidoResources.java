@@ -3,6 +3,8 @@ package com.vitao.aulaspring.resources;
 import com.vitao.aulaspring.domain.Pedido;
 
 import com.vitao.aulaspring.services.PedidoService;
+
+import org.apache.maven.wagon.authorization.AuthorizationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,15 +24,15 @@ public class PedidoResources {
     // Para essa função ser uma função REST =, preciso associar um verbo HTTP "GET"
     // adicionamos no construtor de requestmapping o parametro value = "id" para
     // passar como argumento no end point
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET) // Estou dizendo que é um metodo GET
+    @GetMapping(value = "/{id}") // Estou dizendo que é um metodo GET
     public ResponseEntity<Pedido> find(@PathVariable Integer id) { // trocamos o nome da função e colocamos a notação
                                                                    // @PathVariable
         Pedido obj = service.find(id);
         return ResponseEntity.ok().body(obj);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> insert(@Valid @RequestBody Pedido obj) { // adicionado valid para verificar os dados do
+    @PostMapping
+    public ResponseEntity<Void> insert(@Valid @RequestBody Pedido obj) throws AuthorizationException { // adicionado valid para verificar os dados do
                                                                          // POST
         obj = service.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();

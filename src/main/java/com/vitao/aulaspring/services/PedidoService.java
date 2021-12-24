@@ -10,6 +10,8 @@ import com.vitao.aulaspring.repositories.PagamentoRepository;
 import com.vitao.aulaspring.repositories.PedidoRepository;
 
 import com.vitao.aulaspring.services.exceptions.ObjectNotFoundException;
+
+import org.apache.maven.wagon.authorization.AuthorizationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,7 +49,7 @@ public class PedidoService {
                 () -> new ObjectNotFoundException("Object not found!! ID: " + id + ", tipo:" + Pedido.class.getName()));
     }
 
-    public Pedido insert(Pedido obj) {
+    public Pedido insert(Pedido obj) throws AuthorizationException {
         obj.setId(null);
         obj.setInstante(new Date());
         obj.setCliente(clienteService.find(obj.getCliente().getId()));

@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
+import com.vitao.aulaspring.services.exceptions.AuthorizationException;
 import com.vitao.aulaspring.services.exceptions.DataIntegrityException;
 import com.vitao.aulaspring.services.exceptions.ObjectNotFoundException;
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 // na resposta enviada ao navegador
 @ControllerAdvice
 public class ResourceExceptionHandler {
+
     @ExceptionHandler(ObjectNotFoundException.class)
     public ResponseEntity<StandardError> objectNotFound(ObjectNotFoundException e, HttpServletRequest request){
 
@@ -42,6 +44,13 @@ public class ResourceExceptionHandler {
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
 
+    }
+    @ExceptionHandler(AuthorizationException.class)
+    public ResponseEntity<StandardError> author(AuthorizationException e, HttpServletRequest request){
+
+        StandardError err = new StandardError(HttpStatus.FORBIDDEN.value(), e.getMessage(), System.currentTimeMillis());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err);
+  
     }
 }
 

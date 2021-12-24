@@ -6,6 +6,8 @@ import com.vitao.aulaspring.domain.Cliente;
 import com.vitao.aulaspring.dto.ClienteDTO;
 import com.vitao.aulaspring.dto.ClienteNewDTO;
 import com.vitao.aulaspring.services.ClienteService;
+
+import org.apache.maven.wagon.authorization.AuthorizationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +31,7 @@ public class ClienteResources {
    // Para essa função ser uma função REST =, preciso associar um verbo HTTP "GET"
    //adicionamos no construtor de requestmapping o parametro value = "id" para passar como argumento no end point
    @GetMapping(value="/{id}") //Estou dizendo que é um metodo GET
-    public ResponseEntity<Cliente> find(@PathVariable Integer id){ // trocamos o nome da função e colocamos a notação @PathVariable
+    public ResponseEntity<Cliente> find(@PathVariable Integer id) throws AuthorizationException{ // trocamos o nome da função e colocamos a notação @PathVariable
     Cliente obj = service.find(id);
     return ResponseEntity.ok().body(obj);
     }
@@ -46,7 +48,7 @@ public class ClienteResources {
 
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Void> update(@Valid @RequestBody ClienteDTO objDto, @PathVariable Integer id ){
+    public ResponseEntity<Void> update(@Valid @RequestBody ClienteDTO objDto, @PathVariable Integer id ) throws AuthorizationException{
         Cliente obj = service.fromDTO(objDto);
         obj.setId(id);
         obj = service.update(obj);
@@ -54,7 +56,7 @@ public class ClienteResources {
     }
     @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping(value="/{id}") //Estou dizendo que é um metodo DELETE
-    public ResponseEntity<Void> delete(@PathVariable Integer id){
+    public ResponseEntity<Void> delete(@PathVariable Integer id) throws AuthorizationException{
         service.delete(id);
         return ResponseEntity.noContent().build();
 
