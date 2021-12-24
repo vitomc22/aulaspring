@@ -1,6 +1,7 @@
 package com.vitao.aulaspring.config;
 
 import com.vitao.aulaspring.security.JWTAuthenticationFilter;
+import com.vitao.aulaspring.security.JWTAuthorizationFilter;
 import com.vitao.aulaspring.security.JWTUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +60,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll()
                 .antMatchers(PUBLIC_MATCHERS).permitAll()
                 .anyRequest().authenticated();
-         http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));       
+        http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
+        http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDatailsService));
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
