@@ -6,8 +6,8 @@ import com.vitao.aulaspring.domain.Cliente;
 import com.vitao.aulaspring.dto.ClienteDTO;
 import com.vitao.aulaspring.dto.ClienteNewDTO;
 import com.vitao.aulaspring.services.ClienteService;
+import com.vitao.aulaspring.services.exceptions.AuthorizationException;
 
-import org.apache.maven.wagon.authorization.AuthorizationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;

@@ -1,5 +1,6 @@
 package com.vitao.aulaspring.services;
 
+import com.vitao.aulaspring.domain.Cliente;
 import com.vitao.aulaspring.domain.ItemPedido;
 import com.vitao.aulaspring.domain.PagamentoComBoleto;
 import com.vitao.aulaspring.domain.Pedido;
@@ -8,15 +9,20 @@ import com.vitao.aulaspring.domain.enums.EstadoPagamento;
 import com.vitao.aulaspring.repositories.ItemPedidoRepository;
 import com.vitao.aulaspring.repositories.PagamentoRepository;
 import com.vitao.aulaspring.repositories.PedidoRepository;
-
+import com.vitao.aulaspring.security.UserSS;
 import com.vitao.aulaspring.services.exceptions.ObjectNotFoundException;
 
-import org.apache.maven.wagon.authorization.AuthorizationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.Optional;
+
+
 
 @Service
 public class PedidoService {
@@ -49,7 +55,7 @@ public class PedidoService {
                 () -> new ObjectNotFoundException("Object not found!! ID: " + id + ", tipo:" + Pedido.class.getName()));
     }
 
-    public Pedido insert(Pedido obj) throws AuthorizationException {
+    public Pedido insert(Pedido obj) {
         obj.setId(null);
         obj.setInstante(new Date());
         obj.setCliente(clienteService.find(obj.getCliente().getId()));
@@ -70,5 +76,14 @@ public class PedidoService {
         itemPedidoRepository.saveAll(obj.getItens());
         emailService.sendOrderConfirmationHtmlEmail(obj);
         return obj;
+    }
+    public Page<Pedido> findPage(Integer page, Integer linesPerPage,String orderBy,String direction){
+        UserSS user = UserService.authenticated();
+        if(user ==null){
+        throw new com.vitao.aulaspring.services.exceptions.AuthorizationException("Acesso negado!");
+        }
+        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction),orderBy);
+        Cliente cliente = clienteService.find(user.getId());
+        return repo.findByCliente(cliente, pageRequest);
     }
 }

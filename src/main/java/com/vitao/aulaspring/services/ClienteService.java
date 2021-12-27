@@ -11,10 +11,10 @@ import com.vitao.aulaspring.repositories.CidadeRepository;
 import com.vitao.aulaspring.repositories.ClienteRepository;
 import com.vitao.aulaspring.repositories.EnderecoRepository;
 import com.vitao.aulaspring.security.UserSS;
+import com.vitao.aulaspring.services.exceptions.AuthorizationException;
 import com.vitao.aulaspring.services.exceptions.DataIntegrityException;
 import com.vitao.aulaspring.services.exceptions.ObjectNotFoundException;
 
-import org.apache.maven.wagon.authorization.AuthorizationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -46,7 +46,7 @@ public class ClienteService {
     public Cliente find(Integer id) throws AuthorizationException {
 
         UserSS user = UserService.authenticated();
-        if(user == null || !user.hasROle(Perfil.ADMIN) && !id.equals(user.getId())){
+        if (user == null || !user.hasROle(Perfil.ADMIN) && !id.equals(user.getId())) {
             throw new AuthorizationException("Acesso negado !");
         }
 
