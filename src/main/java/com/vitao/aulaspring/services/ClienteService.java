@@ -46,7 +46,7 @@ public class ClienteService {
     private BCryptPasswordEncoder pe;
 
     @Autowired
-    private  S3Service s3Service;
+    private S3Service s3Service;
 
     public Cliente find(Integer id) throws AuthorizationException {
 
@@ -124,7 +124,18 @@ public class ClienteService {
         newObj.setEmail(obj.getEmail()); // classe auxiliar para buscar os dados do cliente no banco e depois atualizar
     }
 
-    public URI uploadProfilePicture(MultipartFile multipartFile){
-        return s3Service.uploadFile(multipartFile);
-     }
-  }
+    public URI uploadProfilePicture(MultipartFile multipartFile) {
+
+        UserSS user = UserService.authenticated();
+        if (user == null) {
+            throw new AuthorizationException("Acesso negado!");
+        }
+
+        URI uri = s3Service.uploadFile(multipartFile);
+
+        Cliente cli = find(user.getId()); //usando find do proprio service pra buscar o user
+        cli.setImageUrl(uri.toString());
+        repo.save(cli);
+        return uri;
+    }
+}

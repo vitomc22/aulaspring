@@ -47,11 +47,14 @@ public class Cliente implements Serializable { // Serializable serve para tranfo
     @OneToMany(mappedBy = "cliente")
     private List<Pedido> pedidos = new ArrayList<>();
 
+    private String imageUrl;
+
     public Cliente() {
         addPerfil(Perfil.CLIENTE);
 
     }
 
+    
     public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipo, String senha) {
         this.id = id;
         this.nome = nome;
@@ -142,6 +145,15 @@ public class Cliente implements Serializable { // Serializable serve para tranfo
     public void setPedidos(List<Pedido> pedidos) {
         this.pedidos = pedidos;
     }
+    
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
 
     @Override
     public int hashCode() {
