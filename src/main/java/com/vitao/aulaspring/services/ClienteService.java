@@ -56,6 +56,9 @@ public class ClienteService {
     @Value("${img.prefix.client.profile}")
     private String prefix;
 
+    @Value("${img.profile.size}")
+    private Integer size;
+
     public Cliente find(Integer id) throws AuthorizationException {
 
         UserSS user = UserService.authenticated();
@@ -82,7 +85,7 @@ public class ClienteService {
         updateData(newObj, obj);
         return repo.save(newObj);// novo objeto atualizado com os dados do banco e do update vindo de obj
         // com esse novo objeto newObj em conjunto com obj, atualizamos os dados novos e
-        // os campos que nao alteramos, ele mantem oque esta no banco
+        // os campos que nao alteramos, ele mantém oque esta no banco
         // evitando atualizar os dados enviados e nullando os outros dados
     }
 
@@ -139,6 +142,9 @@ public class ClienteService {
             throw new AuthorizationException("Acesso negado!");
         }
         BufferedImage jpgImage = imageService.getJpgFromFile(multipartFile);
+        jpgImage = imageService.cropSquare(jpgImage);
+        jpgImage = imageService.resize(jpgImage,size);
+
         String fileName = prefix + user.getId() + ".jpg";
         return s3Service.uploadFile(imageService.getInputStream(jpgImage,"jpg"),fileName,"image");
     }
