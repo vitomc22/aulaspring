@@ -1,5 +1,10 @@
 package com.vitao.aulaspring.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.vitao.aulaspring.domain.enums.Perfil;
+import com.vitao.aulaspring.domain.enums.TipoCliente;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -7,14 +12,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.persistence.*;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.vitao.aulaspring.domain.enums.Perfil;
-import com.vitao.aulaspring.domain.enums.TipoCliente;
-
 @Entity
 public class Cliente implements Serializable { // Serializable serve para tranformar os objetos da subclasse Categoria
-                                               // em sequencia de Bytes
+    // em sequencia de Bytes
     // Uma vez em bytes esses objetos podem ser gravados em arquivo , trafegar em
     // redes e etc
 
@@ -48,13 +48,12 @@ public class Cliente implements Serializable { // Serializable serve para tranfo
     private List<Pedido> pedidos = new ArrayList<>();
 
 
-
     public Cliente() {
         addPerfil(Perfil.CLIENTE);
 
     }
 
-    
+
     public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipo, String senha) {
         this.id = id;
         this.nome = nome;
@@ -145,7 +144,6 @@ public class Cliente implements Serializable { // Serializable serve para tranfo
     public void setPedidos(List<Pedido> pedidos) {
         this.pedidos = pedidos;
     }
-    
 
 
     @Override

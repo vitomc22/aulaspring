@@ -14,7 +14,6 @@ import com.vitao.aulaspring.security.UserSS;
 import com.vitao.aulaspring.services.exceptions.AuthorizationException;
 import com.vitao.aulaspring.services.exceptions.DataIntegrityException;
 import com.vitao.aulaspring.services.exceptions.ObjectNotFoundException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -24,8 +23,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import javax.transaction.Transactional;
 
+import javax.transaction.Transactional;
 import java.awt.image.BufferedImage;
 import java.net.URI;
 import java.util.List;
@@ -33,17 +32,14 @@ import java.util.Optional;
 
 @Service
 public class ClienteService {
-    @Autowired // anotaçao para instaciar objetos por injeção de dependencia ou inversão de
-               // controle
-               // estamos instaciando o objeto repo
-    private ClienteRepository repo;
-
-    @Autowired
-    private CidadeRepository cidadeRepository;
-
     @Autowired
     EnderecoRepository enderecoRepository;
-
+    @Autowired // anotaçao para instaciar objetos por injeção de dependencia ou inversão de
+    // controle
+    // estamos instaciando o objeto repo
+    private ClienteRepository repo;
+    @Autowired
+    private CidadeRepository cidadeRepository;
     @Autowired
     private BCryptPasswordEncoder pe;
 
@@ -143,9 +139,9 @@ public class ClienteService {
         }
         BufferedImage jpgImage = imageService.getJpgFromFile(multipartFile);
         jpgImage = imageService.cropSquare(jpgImage);
-        jpgImage = imageService.resize(jpgImage,size);
+        jpgImage = imageService.resize(jpgImage, size);
 
         String fileName = prefix + user.getId() + ".jpg";
-        return s3Service.uploadFile(imageService.getInputStream(jpgImage,"jpg"),fileName,"image");
+        return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
     }
 }
