@@ -41,7 +41,7 @@ public class Cliente implements Serializable { // Serializable serve para tranfo
 
     @ElementCollection(fetch = FetchType.EAGER) // essa notação permite o mapeamento de uma entidade fraca no banco
     @CollectionTable(name = "PERFIS") // aqui marcamos a tabela correspondente no banco
-    private Set<Integer> perfis = new HashSet<>();
+    private final Set<Integer> perfis = new HashSet<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "cliente")
@@ -164,11 +164,8 @@ public class Cliente implements Serializable { // Serializable serve para tranfo
             return false;
         Cliente other = (Cliente) obj;
         if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        return true;
+            return other.id == null;
+        } else return id.equals(other.id);
     }
 
 }

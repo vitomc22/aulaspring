@@ -100,6 +100,20 @@ public class ClienteService {
         return repo.findAll();
     }
 
+    public Cliente findByEmail(String email){
+
+        UserSS user = UserService.authenticated();
+        if(user==null || !user.hasROle(Perfil.ADMIN)&& !email.equals(user.getUsername())){
+            throw new AuthorizationException("Acesso negado safado!");
+        }
+
+        Cliente obj = repo.findByEmail(email);  //esse método findbyid veio la do nosso repository CategoriaRepository
+        if(obj == null){
+        throw  new ObjectNotFoundException("Object not found!! ID: "+ user.getId() + ", tipo:"+Cliente.class.getName());
+     }
+        return obj;
+    }
+
     public Page<Cliente> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
         return repo.findAll(pageRequest); /// função que retorna todas as Clientes em forma de paginação
