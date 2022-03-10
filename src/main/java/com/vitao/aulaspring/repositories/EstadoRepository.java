@@ -4,9 +4,15 @@ import com.vitao.aulaspring.domain.Estado;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Repository // Essa anotação significa que essa interface terá poderes de acesso a dados
 public interface EstadoRepository extends JpaRepository<Estado, Integer>  {
+
+    @Transactional(readOnly = true)
+    public List<Estado> findAllByOrderByNome();
 
     
 //aqui usamos interface pois nao precisamos instanciar classe 
